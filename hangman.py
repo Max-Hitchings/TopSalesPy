@@ -25,29 +25,38 @@ class HangMan:
     def clear(self):
         os.system('clear')
 
-    def endGame(self):
+    def loseGame(self):
         if input("you have run out of lives.\nplay again? (y/n)") == 'y':
+            self.startGame()
+        else:
+            print("Thanks for playing")
+
+    def winGame(self):
+        if input("you have won.\nplay again? (y/n)") == 'y':
             self.startGame()
         else:
             print("Thanks for playing")
 
 
     def inputGuess(self, guess):
-        if guess.replace(' ', '') != '' and len(guess) == 1:
+        if guess.replace(' ', '') != '' and len(guess) == 1 and guess not in self.letters:
             self.letters.append(guess)
 
             for l in self.word:
                 if guess == l:
                     self.rightGuesses += 1
             if guess in self.word:
-                self.rightGuesses += 1
-                print("right")
+                ## TO-DO ##
+                if self.rightGuesses > len(self.word):
+                    self.winGame()
+
+                print("right", self.rightGuesses)
             else:
                 self.lives -= 1
                 self.wrongGuesses += 1
                 print(self.lives)
             if self.lives < 0:
-                self.endGame()
+                self.loseGame()
         else:
             print("Invalid guess")
 
